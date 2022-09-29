@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "AMI_ID",
+    "ParameterValue": "ami-08c40ec9ead489470"
+  },
+  {
+    "ParameterKey": "Key_Pair",
+    "ParameterValue": "ssh-key-for-ansible.pem"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  }
+]
