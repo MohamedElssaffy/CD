@@ -5,7 +5,7 @@
   },
   {
     "ParameterKey": "KeyPair",
-    "ParameterValue": "ssh-key-for-ansible.pem"
+    "ParameterValue": "ssh-key-for-ansible"
   },
   {
     "ParameterKey": "InstanceType",
