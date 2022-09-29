@@ -15,5 +15,5 @@ jobs:
           command: |
             aws cloudformation create-stack \
             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-            --template-body infr.yml \
-            --parameters infr-params.json
+            --template-body file://infr.yml \
+            --parameters file://infr-params.json
