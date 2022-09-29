@@ -10,9 +10,9 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: aws configure set aws_access_key_id  $AWS_ACCESS_KEY_ID
-      - run: aws configure set aws_secret_access_key $AWS_SECRET_KEY
-      - run: aws configure set region us-east-1
+      - run: mkdir ~/.aws
+      - run: echo -e "aws_access_key_id  $AWS_ACCESS_KEY_ID \
+          aws_secret_access_key $AWS_SECRET_KEY" > ~/.aws/credentials
 
       - run:
           name: Create Cloudformation Stack
