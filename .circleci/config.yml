@@ -13,12 +13,12 @@ jobs:
       - run:
           name: add credentials to give access for aws account
           command: mkdir ~/.aws \
-            echo [default] \
+            echo -e '[default] \
             aws_access_key_id=$AWS_ACCESS_KEY_ID \
-            aws_secret_access_key=$AWS_SECRET_KEY > ~/.aws/credentials |
-            echo [default] \
+            aws_secret_access_key=$AWS_SECRET_KEY' > ~/.aws/credentials |
+            echo '[default] \
             region=us-east-1 \
-            output=json > ~/.aws/config
+            output=json' > ~/.aws/config
 
       - run:
           name: Create Cloudformation Stack
