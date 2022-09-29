@@ -12,7 +12,12 @@ jobs:
       - checkout
       - run:
           name: add credentials to give access for aws account
-          command: json| aws configure | $AWS_ACCESS_KEY_ID | $AWS_SECRET_KEY | us-east-1
+          command: echo [default] \
+            aws_access_key_id=$AWS_ACCESS_KEY_ID \
+            aws_secret_access_key=$AWS_SECRET_KEY > ~/.aws/credentials |
+            echo [default] \
+            region=us-east-1 \
+            output=json > ~/.aws/config
 
       - run:
           name: Create Cloudformation Stack
