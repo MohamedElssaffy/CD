@@ -13,6 +13,10 @@ jobs:
       - run:
           name: add credentials to give access for aws account
           command: aws configure
+          command: $AWS_ACCESS_KEY_ID
+          command: $AWS_SECRET_KEY
+          command: us-east-1
+          command: json
       - run:
           name: Create Cloudformation Stack
           command: |
