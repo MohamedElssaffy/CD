@@ -5,11 +5,11 @@ Parameters:
     Description: Type for the instance
     Type: String
 
-  AMI_ID:
+  IDOfAMI:
     Description: AMI id for the instance
     Type: String
 
-  Key_Pair:
+  KeyPair:
     Description: key pair for shh connect
     Type: String
 
@@ -19,8 +19,8 @@ Resourses:
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
-      KeyName: !Ref Key_Pair
-      ImageId: !Ref AMI_ID
+      KeyName: !Ref KeyPair
+      ImageId: !Ref IDOfAMI
       InstanceType: !Ref InstanceType
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
