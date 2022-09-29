@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir ~/.aws
-      - run: echo -e "aws_access_key_id  $AWS_ACCESS_KEY_ID \
+      - run: echo -e "[default]\aws_access_key_id  $AWS_ACCESS_KEY_ID \
           aws_secret_access_key $AWS_SECRET_KEY" > ~/.aws/credentials
 
       - run:
