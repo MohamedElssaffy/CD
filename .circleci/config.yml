@@ -11,6 +11,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: add credentials to give access for aws account
+          command: aws configure
+      - run:
           name: Create Cloudformation Stack
           command: |
             aws cloudformation create-stack \
