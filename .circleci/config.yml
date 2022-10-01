@@ -25,7 +25,7 @@ jobs:
     steps:
       - checkout
       - add-ssh-keys:
-        fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
+          fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
       - run:
           name: build inventory file
           command: echo '[all]' > inventory
