@@ -27,12 +27,6 @@ jobs:
       - add_ssh_keys:
           fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
       - run:
-          name: build inventory file
-          command: echo '[all]' > inventory
-      - run:
-          name: add ip in inventory
-          command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
-      - run:
           name: install ansible
           command: apk add --update ansible
       - run:
