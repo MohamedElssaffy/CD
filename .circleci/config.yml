@@ -2,18 +2,39 @@ version: 2.1
 workflows:
   CreateInfra:
     jobs:
-      - createInfra
+      # - createInfra
+      - configure_infra
 
 jobs:
-  createInfra:
+  # createInfra:
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create Cloudformation Stack
+  #         command: |
+  #           aws cloudformation create-stack \
+  #           --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #           --template-body file://infr.yml \
+  #           --parameters file://infr-params.json
+
+  configure_infra:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpipe3.11
     steps:
       - checkout
+      - add-ssh-keys:
+        fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
       - run:
-          name: Create Cloudformation Stack
-          command: |
-            aws cloudformation create-stack \
-            --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-            --template-body file://infr.yml \
-            --parameters file://infr-params.json
+          name: build inventory file
+          command: echo '[all]' > inventory
+      - run:
+          name: add ip in inventory
+          command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+      - run:
+          name: install ansible
+          command: apk add --update ansible
+      - run:
+          name: run playbook and configure server
+          command: ansible-playbook -i inventory playbook.yml
