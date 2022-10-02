@@ -45,6 +45,7 @@ jobs:
       - run:
           name: add ip address in inventory from aws
           command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
       - run:
           name: install ansible
           command: apk add --update ansible
