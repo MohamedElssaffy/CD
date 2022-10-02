@@ -27,6 +27,25 @@ jobs:
       - add_ssh_keys:
           fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
       - run:
+          name: install aws cli
+          command: pip3 install awscli
+      - run:
+          name: create .aws folder
+          command: mkdir ~/.aws
+      - run:
+          name: add credential for aws connect
+          command: echo '[default]\aws_access_key_id=$AWS_ACCESS_KEY_ID\aws_secret_access_key=$AWS_SECRET_ACCESS_KEY' > ~/.aws/credentials
+
+      - run:
+          name: add config for aws
+          command: echo '[default]\region = $AWS_DEFAULT_REGION\output=json' > ~/.aws/config
+      - run:
+          name: create inventory file
+          command: echo '[all]'> inventory.txt
+      - run:
+          name: add ip address in inventory from aws
+          command: aws ec2 describe-instances --query 'Reservations[*].Instancces[*].PublicIpAddress' --output text >> inventory.txt
+      - run:
           name: install ansible
           command: apk add --update ansible
       - run:
