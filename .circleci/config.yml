@@ -2,22 +2,24 @@ version: 2.1
 workflows:
   CreateInfra:
     jobs:
-      # - createInfra
-      - configure_infra
+      - createInfra
+      - configure_infra:
+          - requires:
+              - createInfra
 
 jobs:
-  # createInfra:
-  #   docker:
-  #     - image: amazon/aws-cli
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Create Cloudformation Stack
-  #         command: |
-  #           aws cloudformation create-stack \
-  #           --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-  #           --template-body file://infr.yml \
-  #           --parameters file://infr-params.json
+  createInfra:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation create-stack \
+            --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+            --template-body file://infr.yml \
+            --parameters file://infr-params.json
 
   configure_infra:
     docker:
