@@ -4,8 +4,7 @@ workflows:
     jobs:
       - createInfra
       - configure_infra:
-          - requires:
-              - createInfra
+          - requires: [createInfra]
 
 jobs:
   createInfra:
