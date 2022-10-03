@@ -64,8 +64,7 @@ jobs:
       - run:
           name: smoke test
           command: |
-            URL="https://blog123654.udacity.com/"
-            # Force Error
+            URL="https://blog.udacity.com/"
             if curl -s --head ${URL} 
             then
             return 0
