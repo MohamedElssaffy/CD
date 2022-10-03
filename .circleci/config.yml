@@ -2,54 +2,73 @@ version: 2.1
 workflows:
   CreateInfra:
     jobs:
-      - createInfra
-      - configure_infra:
-          requires: [createInfra]
+      #   - createInfra
+      #   - configure_infra:
+      #       requires: [createInfra]
+      - smoke_test
 
 jobs:
-  createInfra:
+  # Exercise Create Infrastructure
+  #   createInfra:
+  #     docker:
+  #       - image: amazon/aws-cli
+  #     steps:
+  #       - checkout
+  #       - run:
+  #           name: Create Cloudformation Stack
+  #           command: |
+  #             aws cloudformation create-stack \
+  #             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #             --template-body file://infr.yml \
+  #             --parameters file://infr-params.json
+  # Exercise Create configure for server
+  #   configure_infra:
+  #     docker:
+  #       - image: python:3.7-alpine3.11
+  #     steps:
+  #       - checkout
+  #       - add_ssh_keys:
+  #           fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
+  #       - run:
+  #           name: install aws cli
+  #           command: pip3 install awscli
+  #       - run:
+  #           name: create .aws folder
+  #           command: mkdir ~/.aws
+  #       - run:
+  #           name: add credential for aws connect
+  #           command: echo '[default]\aws_access_key_id=$AWS_ACCESS_KEY_ID\aws_secret_access_key=$AWS_SECRET_ACCESS_KEY' > ~/.aws/credentials
+
+  #       - run:
+  #           name: add config for aws
+  #           command: echo '[default]\region = $AWS_DEFAULT_REGION\output=json' > ~/.aws/config
+  #       - run:
+  #           name: create inventory file
+  #           command: echo '[all]'> inventory.txt
+  #       - run:
+  #           name: add ip address in inventory from aws
+  #           command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+  #       - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+  #       - run:
+  #           name: install ansible
+  #           command: apk add --update ansible
+  #       - run:
+  #           name: run playbook and configure server
+  #           command: ansible-playbook -i inventory.txt playbook.yml
+  # Exercise: Smoke Testing
+  smoke_test:
     docker:
-      - image: amazon/aws-cli
+      - image: alpine:latest
     steps:
-      - checkout
+      - run: apk add --update curl
       - run:
-          name: Create Cloudformation Stack
+          name: smoke test
           command: |
-            aws cloudformation create-stack \
-            --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-            --template-body file://infr.yml \
-            --parameters file://infr-params.json
-
-  configure_infra:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ['e7:f6:73:c6:2b:61:43:c2:4b:60:14:b3:9b:5a:ff:89']
-      - run:
-          name: install aws cli
-          command: pip3 install awscli
-      - run:
-          name: create .aws folder
-          command: mkdir ~/.aws
-      - run:
-          name: add credential for aws connect
-          command: echo '[default]\aws_access_key_id=$AWS_ACCESS_KEY_ID\aws_secret_access_key=$AWS_SECRET_ACCESS_KEY' > ~/.aws/credentials
-
-      - run:
-          name: add config for aws
-          command: echo '[default]\region = $AWS_DEFAULT_REGION\output=json' > ~/.aws/config
-      - run:
-          name: create inventory file
-          command: echo '[all]'> inventory.txt
-      - run:
-          name: add ip address in inventory from aws
-          command: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
-      - run: aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
-      - run:
-          name: install ansible
-          command: apk add --update ansible
-      - run:
-          name: run playbook and configure server
-          command: ansible-playbook -i inventory.txt playbook.yml
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+            return 0
+            else
+            return 1
+            fi
