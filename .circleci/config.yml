@@ -5,7 +5,9 @@ workflows:
       - createInfra
       #   - configure_infra:
       #       requires: [createInfra]
-      - smoke_test:
+      # - smoke_test:
+      #     requires: [configure_infra]
+      - fail_job:
           requires: [createInfra]
 
 commands:
