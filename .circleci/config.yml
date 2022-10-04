@@ -11,25 +11,25 @@ workflows:
 commands:
   destroy_environments:
     steps:
-      - run: 
+      - run:
           name: Destroy environments
           when: on_fail
           command: aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
 
 jobs:
   # Exercise Create Infrastructure
-    createInfra:
-      docker:
-        - image: amazon/aws-cli
-      steps:
-        - checkout
-        - run:
-            name: Create Cloudformation Stack
-            command: |
-              aws cloudformation create-stack \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --template-body file://infr.yml \
-              --parameters file://infr-params.json
+  createInfra:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation create-stack \
+            --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+            --template-body file://infr.yml \
+            --parameters file://infr-params.json
   # Exercise Create configure for server
   #   configure_infra:
   #     docker:
@@ -74,7 +74,7 @@ jobs:
   #         name: smoke test
   #         command: |
   #           URL="https://blog.udacity.com/"
-  #           if curl -s --head ${URL} 
+  #           if curl -s --head ${URL}
   #           then
   #           return 0
   #           else
