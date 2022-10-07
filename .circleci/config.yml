@@ -40,7 +40,7 @@ jobs:
             aws cloudformation deploy \
             --template-file bucket.yml \
             --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7}-${CIRCLE_WORKFLOW_ID:7} \
-            --parameter-overrides MyBucketName='my-bucket-${CIRCLE_WORKFLOW_ID:0:7}-${CIRCLE_WORKFLOW_ID:7}'
+            --parameter-overrides MyBucketName=my-bucket-${CIRCLE_WORKFLOW_ID:0:7}-${CIRCLE_WORKFLOW_ID:7}
       - run:
           name: upload file to s3 bucket
           command: |
