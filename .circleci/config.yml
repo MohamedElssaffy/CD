@@ -33,6 +33,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: aws configure list
       - run:
           name: Create a s3 bucket
           command: |
